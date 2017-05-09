@@ -43,5 +43,5 @@ app.use("/auth", auth);
 
 
 app.listen(port, function() {
-    console.log("app running on 8080");
+    console.log("app running on port 8080");
 })
