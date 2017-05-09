@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cookbook</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular-route.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular-resource.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="stylesheets/style.css">
+</head>
+
+<body ng-app="cookApp">
+    <div class="container-fluid">
+        <header>
+            <div class="row">
+                <div class="text-center headline">
+                    <h1>tasty recipes from all over the world</h1>
+                </div>
+            </div>
+            <nav class="first-nav">
+                <div class="row">
+                    <div class="text-center col-sm-6 col-sm-offset-3 col-xs-12">
+                        <h4 ng-click="show_menu()">Register and Login to add Your own recipes</h4>
+                        <a href="#/">Home</a> <a href="#/register">Register</a> <a href="#/login">Login</a> <a href="#/recipe">Add a recipe</a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <div class="row">
+            <div ng-view>
+            </div>
+        </div>
+        <footer>
+            <div class="text-center">
+                <h5>All recipes are reserved :)</h5>
+            </div>
+        </footer>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/controllers.js"></script>
+    <script src="js/config.js"></script>
+</body>
+
+</html>

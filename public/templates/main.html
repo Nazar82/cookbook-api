@@ -1,0 +1,49 @@
+<aside>
+    <div class="second_nav col-sm-3 col-md-2">
+        <nav class="nav">
+            <ul>
+                <li><a href="#">My recipes</a></li>
+                <li><a href="#">Salads</a></li>
+                <li><a href="#">Soups</a></li>
+                <li><a href="#">Cakes</a></li>
+                <li><a href="#">Cocktails</a></li>
+                <li><a href="#">Other</a></li>
+            </ul>
+        </nav>
+    </div>
+</aside>
+<section>
+    <div class="col-sm-8 col-md-10 col-xs-12">
+        <div class="row">
+            <div class="text-center col-xs-12">
+                <div class="menu_icon">
+                    <svg ng-click="show_menu()" xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 0 48 48" width="48">
+                        <path d="M0 0h48v48h-48z" fill="none" /></path>
+                        <path d="M6 36h36v-4h-36v4zm0-10h36v-4h-36v4zm0-14v4h36v-4h-36z" /></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-show="center_menu">
+            <div class="menu_xs text-left col-xs-12">
+                <nav>
+                    <ul class="menu_xs_list" ng-click="show_menu()">
+                        <li><a href="#">My recipes</a></li>
+                        <li><a href="#">Salads</a></li>
+                        <li><a href="#">Soups</a></li>
+                        <li><a href="#">Cakes</a></li>
+                        <li><a href="#">Cocktails</a></li>
+                        <li><a href="#">Other</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="recipe col-sm-6 col-md-5 col-xs-12" ng-repeat="recipe in recipes | filter: posted_by: 'guest'">
+            <a href="" class="recipe_href">
+                <h4>{{recipe.title}}</h4>
+                <p>{{recipe.descript}}</p>
+                <small>Posted by @{{recipe.posted_by}}</small>
+            </a>
+        </div>
+    </div>
+</section>
