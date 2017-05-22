@@ -12,8 +12,13 @@ cookApp.config(function($routeProvider) {
             templateUrl: "templates/login.html"
 
         })
-        .when("/recipe", {
-            templateUrl: "templates/recipe.html",
+        .when("/add_recipe", {
+            templateUrl: "templates/add_recipe.html",
+            controller: "mainCtrl"
+        })
+
+        .when("/show_recipe", {
+            templateUrl: "templates/show_recipe.html",
             controller: "mainCtrl"
         });
 

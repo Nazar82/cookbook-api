@@ -1,5 +1,5 @@
  angular.module("Controllers", [])
-     .controller("mainCtrl", function($scope, $http, $location) {
+     .controller("mainCtrl", function($scope, $http, $location, $window) {
          /*   $scope.recipes = [{
                 title: "Salad",
                 descript: "chop onion, cucumber, tomato. then mixed all of this in a big bowl. chop onion, cucumber, tomato. then mixed all of this in a big bowl",
@@ -23,9 +23,35 @@
          $http.get("/api/recipes")
              .then(function(response) {
                  $scope.recipes = response.data;
-                 console.log(response.data);
+
              });
 
+
+
+         $scope.unique_recipe = {
+             title: '',
+             descript: '',
+             ingredients: '',
+             body: '',
+             posted_by: "guest"
+         }
+
+
+             var id = "";
+             $scope.show_recipe = function(recipe) {
+                id = recipe._id;
+                console.log(id); 
+                $http.get("/api/recipe/" + id)
+                 .then(function(response) {
+                     $scope.unique_recipe = response.data;
+                     console.log($scope.unique_recipe);
+                 });
+
+             }
+      
+            
+
+         
 
 
          $scope.recipe = {
@@ -44,10 +70,7 @@
 
              $location.path('/');
 
-         }
-
-
-
+         };
 
 
          $scope.center_menu = false;
@@ -58,8 +81,8 @@
              } else {
                  $scope.center_menu = true;
              }
-
-         }
+             console.log($scope.center_menu);
+         };
      })
 
  .controller("registerCtrl", function($scope, $location, $http) {
@@ -78,5 +101,9 @@
 
 
      }
+
+     $scope.login = function () {
+         // body...
+     };
 
  });

@@ -4,6 +4,7 @@ var logger = require('morgan');
 var bodyParser = require("body-parser");
 var cookieParser = require("cookie-parser");
 var session = require("express-session");
+var passport = require("passport");
 var mongoose = require("mongoose");
 var options = {
     server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } },
@@ -35,13 +36,15 @@ app.use(session({
 }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use("/api", api);
 app.use("/auth", auth);
  
 
 
 app.listen(port, function() {
-    console.log("app running on port 8080");
+    console.log("app running on 8080");
 })

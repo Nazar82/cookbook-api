@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <title>Cookbook</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular-route.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular-resource.js"></script>
@@ -13,7 +12,7 @@
     <link rel="stylesheet" href="stylesheets/style.css">
 </head>
 
-<body ng-app="cookApp">
+<body ng-app="cookApp" ng-controller="mainCtrl">
     <div class="container-fluid">
         <header>
             <div class="row">
@@ -25,14 +24,58 @@
                 <div class="row">
                     <div class="text-center col-sm-6 col-sm-offset-3 col-xs-12">
                         <h4 ng-click="show_menu()">Register and Login to add Your own recipes</h4>
-                        <a href="#/">Home</a> <a href="#/register">Register</a> <a href="#/login">Login</a> <a href="#/recipe">Add a recipe</a>
+                        <a href="#/">Home</a> <a href="#/register">Register</a> <a href="#/login">Login</a> <a href="#/add_recipe">Add the recipe</a>
                     </div>
                 </div>
             </nav>
         </header>
         <div class="row">
-            <div ng-view>
-            </div>
+            <aside>
+                <div class="aside_menu col-xs-3 col-md-3 col-lg-2">
+                    <nav class="nav">
+                        <ul>
+                            <li><a href="#">My recipes</a></li>
+                            <li><a href="#">Salads</a></li>
+                            <li><a href="#">Soups</a></li>
+                            <li><a href="#">Cakes</a></li>
+                            <li><a href="#">Cocktails</a></li>
+                            <li><a href="#">Other</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </aside>
+            <section >
+                <div class="col-sm-9 col-md-9 col-xs-12 col-lg-10">
+                      <div class="row menu_icon">
+                        <div class="text-center col-xs-12">
+                            <div class="menu_icon">
+                                <svg ng-click="show_menu()" xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 0 48 48" width="48">
+                                    <path d="M0 0h48v48h-48z" fill="none" /></path>
+                                    <path d="M6 36h36v-4h-36v4zm0-10h36v-4h-36v4zm0-14v4h36v-4h-36z" /></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row center_menu" ng-show="center_menu">
+                        <div class="text-left col-xs-12">
+                            <nav class="nav">
+                                <ul>
+                                    <li><a href="#">My recipes</a></li>
+                                    <li><a href="#">Salads</a></li>
+                                    <li><a href="#">Soups</a></li>
+                                    <li><a href="#">Cakes</a></li>
+                                    <li><a href="#">Cocktails</a></li>
+                                    <li><a href="#">Other</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>  
+                    <div class="row">
+                        <div ng-view>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
         <footer>
             <div class="text-center">
