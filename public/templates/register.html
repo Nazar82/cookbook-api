@@ -1,13 +1,16 @@
 <div class="col-lg-5 col-lg-offset-2 col-md-6 col-md-offset-1 col-sm-7 col-sm-offset-1 col-xs-6 col-xs-offset-3 text-center">
-    <form class="form_auth" name="form_auth" ng-submit="register()">
+    <form class="form_auth" name="form_auth" ng-submit="register()" novalidate>
         <h2>Register</h2>
          
-        <input type="username" ng-model="user.username" placeholder="Username" class="form-control">
+        <input type="text" name="username" ng-model="user.username" placeholder="Username" class="form-control" ng-minlength="3" required>
+        <p ng-show="form_auth.username.$error.minlength" class="help-block">Username is too short.</p>
         <br>
-        <input type="email" ng-model="user.email" placeholder="Email" class="form-control">
+        <input type="email" name="email" ng-model="user.email" placeholder="Email" class="form-control" required>
+        <p ng-show="form_auth.email.$invalid && !form_auth.email.$pristine" class="help-block">Enter a valid email.</p>
         <br>
-        <input type="password" ng-model="user.password" placeholder="Password" class="form-control">
+        <input type="password" name="password" ng-model="user.password" placeholder="Password" class="form-control" ng-minlength="6" required>
         <br>
-        <input type="submit" value="Register" class="btn btn-primary" ng-disabled="form_auth.$invalid" />
+        <p ng-show="form_auth.password.$error.minlength" class="help-block">Password is too short.</p>
+        <button type="submit" class="btn btn-primary" ng-disabled="form_auth.$invalid" >Register</button>  
     </form>
 </div>

@@ -8,6 +8,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular-route.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular-resource.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular-cookies.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="stylesheets/style.css">
 </head>
@@ -23,8 +24,9 @@
             <nav class="first-nav">
                 <div class="row">
                     <div class="text-center col-sm-6 col-sm-offset-3 col-xs-12">
-                        <h4 ng-click="show_menu()">Register and Login to add Your own recipes</h4>
-                        <a href="#/">Home</a> <a href="#/register">Register</a> <a href="#/login">Login</a> <a href="#/add_recipe">Add the recipe</a>
+                        <h4 ng-hide="authenticated">Register and Login to add Your own recipes</h4>
+                        <h4 ng-show="authenticated">Welcome to our site, {{current_user}}</h4>
+                        <a href="#/">Home</a> <a ng-hide="authenticated" href="#/register">Register</a> <a ng-hide="authenticated" href="#/login">Login</a> <a ng-show="authenticated" href="#/add_recipe">Add the recipe</a> <a ng-show="authenticated" ng-click="logout()" href="#/">Logout</a>
                     </div>
                 </div>
             </nav>

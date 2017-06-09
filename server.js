@@ -22,7 +22,8 @@ conn.once("open", function() {
 require('./models/models.js');
 
 var api = require("./routes/api");
-var auth = require("./routes/authenticate");
+var auth = require("./routes/authenticate")(passport);
+
 
 var app = express();
 
@@ -43,6 +44,10 @@ app.use(passport.session());
 app.use("/api", api);
 app.use("/auth", auth);
  
+
+var initPassport = require("./passport-init");
+initPassport(passport);
+
 
 
 app.listen(port, function() {

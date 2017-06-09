@@ -8,14 +8,28 @@
      color: white;
      font-family: 'Merienda', cursive;
  }
-
-
+ 
  .headline {
      margin-top: 70px;
  }
  
- a {
+ a:link {
+     color: #5a7fc9;
      font-size: large;
+     text-decoration: none !important;
+ }
+ a:visited {
+     color: #5a7fc9;
+ }
+ a:hover {
+  text-decoration: underline !important;
+}
+ 
+
+ 
+
+ button {
+    background-color: #5a7fc9 !important;
  }
  
  .recipe {
@@ -23,67 +37,63 @@
      height: 200px;
  }
  
- .recipe_href, .recipe_href:hover, .recipe_href:visited, .recipe_href:link  {
+ .recipe_href,
+ .recipe_href:hover,
+ .recipe_href:visited,
+ .recipe_href:link {
      text-decoration: none;
      color: white;
-      
-
  }
-
- 
  
  .first-nav {
- 	padding-bottom: 50px;
+     padding-bottom: 50px;
  }
-  
-   
-
-   .nav li > a:hover, .nav li > a:focus {
-      
+ 
+ .nav li > a:hover,
+ .nav li > a:focus {
      background-color: transparent !important;
  }
-
-.nav li  {
+ 
+ .nav li {
      list-style-type: none;
-}
-
- 
-
- 
-
- .menu_icon {
-display: none;
-}  
-.menu_icon svg {
-	fill: #337ab7;
-	
-}
-
-  .center_menu {
-  display: none;
-}
-  
- @media (max-width: 767px) {
-.menu_icon {
-display: block;
-}
-.aside_menu {
-  display: none;
-}
-.first-nav {
-   padding-bottom: 20px;
  }
+ 
+ .menu_icon {
+     display: none;
+ }
+ 
+ .menu_icon svg {
+     fill: #337ab7;
+ }
+ 
  .center_menu {
-  display: block;
-}
-  
-} 
-
-.menu_xs_list li {
-	list-style-type: none;
-}
-
-footer {
-    padding: 1rem;
-  text-align: center;
-}
+     display: none;
+ }
+ 
+ @media (max-width: 767px) {
+     .menu_icon {
+         display: block;
+     }
+     .aside_menu {
+         display: none;
+     }
+     .first-nav {
+         padding-bottom: 20px;
+     }
+     .center_menu {
+         display: block;
+     }
+ }
+ 
+ .menu_xs_list li {
+     list-style-type: none;
+ }
+ 
+ footer {
+     padding: 1rem;
+     text-align: center;
+ }
+ 
+ .help-block {
+     color: pink;
+ }
