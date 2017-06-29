@@ -11,6 +11,7 @@ var recipeSchema = new mongoose.Schema({
     descript: String,
     ingredients: String,
     body: String,
+    type: String,
     posted_by: String,
     created_at: { type: Date, default: Date.now }
 });

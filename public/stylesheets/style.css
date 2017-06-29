@@ -26,16 +26,25 @@
 }
  
 
- 
-
- button {
+ button, .edit_button {
     background-color: #5a7fc9 !important;
+ }
+
+ .edit_button {
+  margin: 5px;
  }
  
  .recipe {
      text-align: center;
      height: 200px;
  }
+
+ @media (max-width: 991px) {
+  .recipe {
+  }
+
+ }
+
  
  .recipe_href,
  .recipe_href:hover,
@@ -43,6 +52,10 @@
  .recipe_href:link {
      text-decoration: none;
      color: white;
+ }
+
+ .unique_recipe {
+  font-size: 20px;
  }
  
  .first-nav {
@@ -63,7 +76,7 @@
  }
  
  .menu_icon svg {
-     fill: #337ab7;
+     fill: #5a7fc9;
  }
  
  .center_menu {
@@ -97,3 +110,5 @@
  .help-block {
      color: pink;
  }
+
+ 

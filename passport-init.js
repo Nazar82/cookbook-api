@@ -3,13 +3,10 @@
 
  var LocalStrategy = require('passport-local').Strategy;
  var bCrypt = require('bcrypt-nodejs');
- //temporary data store
- var users = {};
-
+  
  module.exports = function(passport) {
 
-     // Passport needs to be able to serialize and deserialize users to support persistent login sessions
-     passport.serializeUser(function(user, done) {
+      passport.serializeUser(function(user, done) {
          console.log('serializing user: ',user.username);
          done(null, user._id);
      });

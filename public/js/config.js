@@ -21,7 +21,14 @@ cookApp.config(function($routeProvider) {
         .when("/show_recipe", {
             templateUrl: "templates/show_recipe.html",
             controller: "mainCtrl"
+        })
+        .when("/filtered", {
+            templateUrl: "templates/filtered.html",
+            controller: "mainCtrl"
+        })
+        .when("/edit_recipe", {
+            templateUrl: "templates/edit_recipe.html",
+            controller: "mainCtrl"
         });
-
     $routeProvider.otherwise("/");
 })

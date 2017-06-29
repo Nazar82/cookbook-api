@@ -24,12 +24,9 @@ require('./models/models.js');
 var api = require("./routes/api");
 var auth = require("./routes/authenticate")(passport);
 
-
 var app = express();
-
  
 var port = process.env.PORT || 8080;
-
 
 app.use(logger('dev'));
 app.use(session({

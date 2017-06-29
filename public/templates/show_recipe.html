@@ -1,7 +1,16 @@
-<div class="col-lg-5 col-md-5">
-    <h4>{{unique_recipe.title}}</h4>
+<div class="col-lg-8 col-lg-offset-1 col-md-10 col-md-offset-0 col-sm-10 col-sm-offset-0 col-xs-10 col-xs-offset-1 unique_recipe">
+    <h2 class="text-center">{{unique_recipe.title}}</h2>
     <p>{{unique_recipe.descript}}</p>
-    <p>{{unique_recipe.ingredients}}</p>
-    <p>{{unique_recipe.body}}</p>
+    <h3 class="text-center">Ingredients</h3>
+    <div ng-repeat="ingredient in ingreds">
+    <p>{{ingredient}}</p>
+    </div>
+    <h3 class="text-center">Directions</h3>
+    <div ng-repeat="direction in directions">
+    <p>{{direction}}</p>
+    </div>
+    <br>
     <small>Posted by @{{unique_recipe.posted_by}}</small>
-</div>
+    <a href=""><input type="button" value="Edit" class="btn btn-primary pull-right edit_button" ng-show="show_edit"  ng-click="edit(unique_recipe)"/></a>
+    <input type="button" value="Delete" class="btn btn-primary pull-right edit_button" ng-show="show_edit"  ng-click="delete(unique_recipe)"/>
+ 
