@@ -4,9 +4,9 @@
   "description": "app for storing recipes",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+     "start": "node server.js"
   },
-  "author": "",
+  "author": "Naz",
   "license": "ISC",
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
@@ -15,7 +15,27 @@
     "express": "^4.15.2",
     "express-session": "^1.15.3",
     "mongoose": "^4.9.7",
+    "morgan": "^1.8.2",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0"
-  }
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-autoprefixer": "^3.0.4",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-cssmin": "^2.2.0",
+    "grunt-contrib-uglify": "^3.0.1",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-ng-annotate": "^3.0.0",
+    "grunt-postcss": "^0.8.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nazar82/cook-book.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/Nazar82/cook-book/issues"
+  },
+  "homepage": "https://github.com/Nazar82/cook-book#readme"
 }

@@ -11,7 +11,7 @@ var options = {
     replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } }
 };
 
-var mongodb = "mongodb://Nazar82:02070207@ds127801.mlab.com:27801/cookbook_db"
+var mongodb = "mongodb://Nazar82:02070207@ds127801.mlab.com:27801/cookbook_db";
 mongoose.connect(mongodb, options);
 var conn = mongoose.connection;
 conn.on('error', console.error.bind(console, 'connection error:'));

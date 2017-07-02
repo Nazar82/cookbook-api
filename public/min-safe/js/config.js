@@ -1,4 +1,4 @@
-cookApp.config(function($routeProvider) {
+cookApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider
         .when("/", {
             templateUrl: "templates/main.html",
@@ -31,4 +31,4 @@ cookApp.config(function($routeProvider) {
             controller: "mainCtrl"
         });
     $routeProvider.otherwise("/");
-});
+}]);

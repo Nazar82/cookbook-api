@@ -1,6 +1,6 @@
  angular.module("Controllers", ['ngCookies'])
 
- .run(function($http, $rootScope, $cookies) {
+ .run(['$http', '$rootScope', '$cookies', function($http, $rootScope, $cookies) {
      $rootScope.current_user = $cookies.current_user;
      $rootScope.authenticated = $cookies.authenticated;
 
@@ -27,11 +27,11 @@
          $cookies.authenticated = 'false';
          $cookies.current_user = '';
      };
- })
+ }])
 
  //===================Main controller======================
 
- .controller("mainCtrl", function($scope, $location, $http, $rootScope, $cookies, $window) {
+ .controller("mainCtrl", ['$scope', '$location', '$http', '$rootScope', '$cookies', '$window', function($scope, $location, $http, $rootScope, $cookies, $window) {
 
      $http.get("/api/recipes")
          .then(function(response) {
@@ -195,11 +195,11 @@
              $scope.center_menu = true;
          }
      };
- })
+ }])
 
  //===============Authorization controller===================
 
- .controller("authCtrl", function($scope, $location, $http, $rootScope, $cookies) {
+ .controller("authCtrl", ['$scope', '$location', '$http', '$rootScope', '$cookies', function($scope, $location, $http, $rootScope, $cookies) {
      $scope.user = {
          username: '',
          email: '',
@@ -244,5 +244,5 @@
                  $location.path('/show_recipe');
              });
      };
- });
+ }]);
  

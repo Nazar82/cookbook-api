@@ -26,7 +26,8 @@
                     <div class="text-center col-sm-6 col-sm-offset-3 col-xs-12">
                         <h4 ng-hide="authenticated">Register and Login to add Your own recipes</h4>
                         <h4 ng-show="authenticated">Welcome to our site, {{current_user}}</h4>
-                        <a href="#/">Home</a> <a ng-hide="authenticated" href="#/register">Register</a> <a ng-hide="authenticated" href="#/login">Login</a> <a ng-show="authenticated" href="#/add_recipe">Add the recipe</a> <a ng-show="authenticated" ng-click="logout()" href="#/">Logout</a>
+                        <a href="#/">Home</a> <a ng-hide="authenticated" href="#/register">Register</a> <a ng-hide="authenticated" href="#/login">Login</a> <a ng-show="authenticated" href="#/add_recipe">Add the recipe</a> <a ng-show="authenticated" ng-click="logout()"
+                            href="#/">Logout</a>
                     </div>
                 </div>
             </nav>
@@ -81,15 +82,14 @@
         </div>
         <footer>
             <div class="text-center">
-                <h5>All recipes are reserved :)</h5>
+                <h5>All recipes are reserved</h5>
             </div>
         </footer>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/controllers.js"></script>
-    <script src="js/config.js"></script>
+    <script src="js/main.min.js"></script>
+     
 </body>
 
 </html>

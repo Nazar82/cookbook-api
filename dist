@@ -1,0 +1,112 @@
+  
+ @font-face {
+    font-family: Merienda;
+    src: url(/fonts/Merienda-Regular.ttf);
+}
+ body {
+     background-image: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), url(../images/back.jpg);
+     background-repeat: no-repeat;
+     background-attachment: fixed;
+     background-position: center;
+     background-size: cover;
+     color: white;
+     font-family: 'Merienda', cursive;
+ }
+ 
+ .headline {
+     margin-top: 70px;
+ }
+ 
+ a:link {
+     color: #5a7fc9;
+     font-size: large;
+     text-decoration: none !important;
+ }
+ a:visited {
+     color: #5a7fc9;
+ }
+ a:hover {
+  text-decoration: underline !important;
+}
+ 
+
+ button, .edit_button {
+    background-color: #5a7fc9 !important;
+ }
+
+ .edit_button {
+  margin: 5px;
+ }
+ 
+ .recipe {
+     text-align: center;
+     height: 200px;
+ }
+
+  
+ .recipe_href,
+ .recipe_href:hover,
+ .recipe_href:visited,
+ .recipe_href:link {
+     text-decoration: none;
+     color: white;
+ }
+
+ .unique_recipe {
+  font-size: 20px;
+ }
+ 
+ .first-nav {
+     padding-bottom: 50px;
+ }
+ 
+ .nav li > a:hover,
+ .nav li > a:focus {
+     background-color: transparent !important;
+ }
+ 
+ .nav li {
+     list-style-type: none;
+ }
+ 
+ .menu_icon {
+     display: none;
+ }
+ 
+ .menu_icon svg {
+     fill: #5a7fc9;
+ }
+ 
+ .center_menu {
+     display: none;
+ }
+ 
+ @media (max-width: 767px) {
+     .menu_icon {
+         display: block;
+     }
+     .aside_menu {
+         display: none;
+     }
+     .first-nav {
+         padding-bottom: 20px;
+     }
+     .center_menu {
+         display: block;
+     }
+ }
+ 
+ .menu_xs_list li {
+     list-style-type: none;
+ }
+ 
+ footer {
+     padding: 1rem;
+     text-align: center;
+ }
+ 
+ .help-block {
+     color: pink;
+ }
+
+ 

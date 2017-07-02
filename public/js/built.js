@@ -1,6 +1,10 @@
- angular.module("Controllers", ['ngCookies'])
+var cookApp = angular.module("cookApp", ["ngRoute", "Controllers"]);
 
- .run(function($http, $rootScope, $cookies) {
+ 
+
+; angular.module("Controllers", ['ngCookies'])
+
+ .run(['$http', '$rootScope', '$cookies', function($http, $rootScope, $cookies) {
      $rootScope.current_user = $cookies.current_user;
      $rootScope.authenticated = $cookies.authenticated;
 
@@ -27,11 +31,11 @@
          $cookies.authenticated = 'false';
          $cookies.current_user = '';
      };
- })
+ }])
 
  //===================Main controller======================
 
- .controller("mainCtrl", function($scope, $location, $http, $rootScope, $cookies, $window) {
+ .controller("mainCtrl", ['$scope', '$location', '$http', '$rootScope', '$cookies', '$window', function($scope, $location, $http, $rootScope, $cookies, $window) {
 
      $http.get("/api/recipes")
          .then(function(response) {
@@ -195,11 +199,11 @@
              $scope.center_menu = true;
          }
      };
- })
+ }])
 
  //===============Authorization controller===================
 
- .controller("authCtrl", function($scope, $location, $http, $rootScope, $cookies) {
+ .controller("authCtrl", ['$scope', '$location', '$http', '$rootScope', '$cookies', function($scope, $location, $http, $rootScope, $cookies) {
      $scope.user = {
          username: '',
          email: '',
@@ -244,5 +248,38 @@
                  $location.path('/show_recipe');
              });
      };
- });
- 
+ }]);
+ ;cookApp.config(['$routeProvider', function($routeProvider) {
+    $routeProvider
+        .when("/", {
+            templateUrl: "templates/main.html",
+            controller: "mainCtrl"
+        })
+        .when("/register", {
+            templateUrl: "templates/register.html",
+            controller: "authCtrl"
+        })
+        .when("/login", {
+            templateUrl: "templates/login.html",
+            controller: "authCtrl"
+           
+        })
+        .when("/add_recipe", {
+            templateUrl: "templates/add_recipe.html",
+            controller: "mainCtrl"
+        })
+
+        .when("/show_recipe", {
+            templateUrl: "templates/show_recipe.html",
+            controller: "mainCtrl"
+        })
+        .when("/filtered", {
+            templateUrl: "templates/filtered.html",
+            controller: "mainCtrl"
+        })
+        .when("/edit_recipe", {
+            templateUrl: "templates/edit_recipe.html",
+            controller: "mainCtrl"
+        });
+    $routeProvider.otherwise("/");
+}]);
