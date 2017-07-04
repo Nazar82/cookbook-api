@@ -2,9 +2,9 @@ var cookApp = angular.module("cookApp", ["ngRoute", "Controllers"]);
 
  
 
-; angular.module("Controllers", ['ngCookies'])
-
- .run(['$http', '$rootScope', '$cookies', function($http, $rootScope, $cookies) {
+;angular.module("Controllers", ['ngCookies'])
+ 
+.run(['$http', '$rootScope', '$cookies', function($http, $rootScope, $cookies) {
      $rootScope.current_user = $cookies.current_user;
      $rootScope.authenticated = $cookies.authenticated;
 
@@ -32,10 +32,11 @@ var cookApp = angular.module("cookApp", ["ngRoute", "Controllers"]);
          $cookies.current_user = '';
      };
  }])
-
+ 
+ 
  //===================Main controller======================
 
- .controller("mainCtrl", ['$scope', '$location', '$http', '$rootScope', '$cookies', '$window', function($scope, $location, $http, $rootScope, $cookies, $window) {
+.controller("mainCtrl", ['$scope', '$location', '$http', '$rootScope', '$cookies', '$window', function($scope, $location, $http, $rootScope, $cookies, $window) {
 
      $http.get("/api/recipes")
          .then(function(response) {
@@ -47,6 +48,7 @@ var cookApp = angular.module("cookApp", ["ngRoute", "Controllers"]);
 
      $scope.filter = function(type) {
          $http.get("api/recipes")
+         
              .then(function(response) {
                  var filtered = [];
                  if (type == "user") {
@@ -70,7 +72,7 @@ var cookApp = angular.module("cookApp", ["ngRoute", "Controllers"]);
              }, function(response) {
                  alert("There was an error. Please try again.\n" + "StatusCode: " + response.status);
              });
-     }
+     };
 
      //=============Function to store data in localStorage============
 
@@ -163,8 +165,7 @@ var cookApp = angular.module("cookApp", ["ngRoute", "Controllers"]);
                  alert("There was an error. Please try again.\n" + "StatusCode: " + response.status);
                  $location.path('/edit_recipe');
              });
-             console.log("ddddd");
-          $window.scrollTo(0, 0);
+           $window.scrollTo(0, 0);
      };
 
      //================Delete function==========================
@@ -203,7 +204,7 @@ var cookApp = angular.module("cookApp", ["ngRoute", "Controllers"]);
 
  //===============Authorization controller===================
 
- .controller("authCtrl", ['$scope', '$location', '$http', '$rootScope', '$cookies', function($scope, $location, $http, $rootScope, $cookies) {
+.controller("authCtrl", ['$scope', '$location', '$http', '$rootScope', '$cookies', function($scope, $location, $http, $rootScope, $cookies) {
      $scope.user = {
          username: '',
          email: '',
