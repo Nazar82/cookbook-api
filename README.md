@@ -10,3 +10,5 @@ Other.
 
 Also after loggin in one can select only recipes added by himself/herself by pressing the link - "My recipes".
 You can edit or delete Your own rescipes. 
+
+To build this app I used MEAN stack - MongoDB, Express.js, Angular and Node.js. I deployed my app on the cloud platform Heroku and for storing data I used MongoDB hosting platform MongoLab. 
