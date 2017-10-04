@@ -30,8 +30,10 @@ router.post("/recipes", function(req, res) {
     recipe.title = req.body.title;
     recipe.descript = req.body.descript;
     recipe.ingredients = req.body.ingredients;
-    recipe.body = req.body.body;
+    recipe.directions = req.body.directions;
+    recipe.main = req.body.main;
     recipe.type = req.body.type;
+    recipe.cuisine = req.body.cuisine;
     recipe.posted_by = req.body.posted_by;
 
     recipe.save(function(err, recipe) {
@@ -51,8 +53,10 @@ router.put("/recipe/:id", function(req, res) {
         recipe.title = req.body.title;
         recipe.descript = req.body.descript;
         recipe.ingredients = req.body.ingredients;
-        recipe.body = req.body.body;
+        recipe.directions = req.body.directions;
+        recipe.main = req.body.main;
         recipe.type = req.body.type;
+        recipe.cuisine = req.body.cuisine;
         recipe.posted_by = req.body.posted_by;
 
         recipe.save(function(err, recipe) {

@@ -4,7 +4,7 @@
   "description": "app for storing recipes",
   "main": "index.js",
   "scripts": {
-     "start": "node server.js"
+    "start": "node server.js"
   },
   "author": "Naz",
   "license": "ISC",
@@ -12,6 +12,7 @@
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.17.1",
     "cookie-parser": "^1.4.3",
+    "cors": "^2.8.4",
     "express": "^4.15.2",
     "express-session": "^1.15.3",
     "mongoose": "^4.9.7",
