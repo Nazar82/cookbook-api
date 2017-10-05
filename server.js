@@ -24,19 +24,10 @@ conn.once("open", function() {
 require('./models/models.js');
 
 var app = express();
-
 var port = process.env.PORT || 8080;
-
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-  });
 
 var api = require("./routes/api");
 var auth = require("./routes/authenticate")(passport);
-
-
 
 app.use(logger('dev'));
 app.use(session({
@@ -48,26 +39,13 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
 app.use(passport.session());
-
-
-/* app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "GET");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-  }); */
-
-  app.use(cors());
-
+app.use(cors());
 
 app.use("/api", api);
 app.use("/auth", auth);
- 
 
 var initPassport = require("./passport-init");
 initPassport(passport);
-
-
 
 app.listen(port, function() {
     console.log("app running on " + port);
