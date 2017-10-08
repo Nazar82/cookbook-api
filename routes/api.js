@@ -6,7 +6,7 @@ var Recipe = mongoose.model("Recipe");
 router.get("/recipes", function(req, res) {
     Recipe.find(function(err, data) {
         if (err) {
-            res.send(500, err);
+            res.send(400, err);
         }
         res.send(data);
     });
@@ -15,13 +15,16 @@ router.get("/recipes", function(req, res) {
 router.get("/recipe/:id", function(req, res) {
     Recipe.findById(req.params.id, function(err, recipe) {
         if (err) {
-            res.send(500, err);
+            res.send(400, err);
         }
-        res.json(recipe);
+        var parsedRecipe = {};
+        parsedRecipe.title = recipe.title;
+        parsedRecipe.descript = recipe.descript;
+        parsedRecipe.ingredients = recipe.ingredients;
+        parsedRecipe.directions = recipe.directions;
+        parsedRecipe.posted_by = recipe.posted_by;
+        res.json(parsedRecipe);
     })
-
-    console.log(req.params.id);
-
 });
 
 router.post("/recipes", function(req, res) {
@@ -48,7 +51,7 @@ router.post("/recipes", function(req, res) {
 router.put("/recipe/:id", function(req, res) {
     Recipe.findById(req.params.id, function(err, recipe) {
         if (err) {
-            res.send(500, err);
+            res.send(400, err);
         }
         recipe.title = req.body.title;
         recipe.descript = req.body.descript;
@@ -63,7 +66,6 @@ router.put("/recipe/:id", function(req, res) {
                 res.send(500, err);
             }
             return res.json(recipe);
-
         });
 
     });
@@ -75,7 +77,7 @@ router.delete("/recipe/:id", function(req, res) {
         _id: req.params.id
     }, function(err, data) {
         if (err) {
-            res.send(500, err);
+            res.send(400, err);
         }
         res.send(data);
     });
