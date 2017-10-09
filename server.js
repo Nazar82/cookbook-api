@@ -7,6 +7,7 @@ var session = require("express-session");
 var passport = require("passport");
 var mongoose = require("mongoose");
 var cors = require("cors");
+var router = express.Router();
 
 var options = {
     server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } },
@@ -27,7 +28,7 @@ var app = express();
 var port = process.env.PORT || 8080;
 
 var api = require("./routes/api");
-var auth = require("./routes/authenticate")(passport);
+var auth = require("./routes/authenticate")(router);
 
 app.use(logger('dev'));
 app.use(session({
