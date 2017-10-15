@@ -1,87 +1,76 @@
  const mongoose = require("mongoose");
  const User = mongoose.model("User");
  const jwt = require("jsonwebtoken");
- const crypto = require('crypto');
- const secret = crypto.randomBytes(256).toString('hex');
+ const config = require('../config');
+ const codes = require('../codes');
 
  module.exports = (router) => {
 
      router.post('/register', (req, res) => {
-
+         if (!req.body.username) {
+             return res.json({ success: false, code: codes.badRequest, message: 'You must provide a username' });
+         }
          if (!req.body.email) {
-             res.json({ success: false, message: 'You must provide an e-mail' });
-         } else {
-             if (!req.body.username) {
-                 res.json({ success: false, message: 'You must provide a username' });
-             } else {
-                 if (!req.body.password) {
-                     res.json({ success: false, message: 'You must provide a password' });
-                 } else {
-
-                     let user = new User({
-                         email: req.body.email,
-                         username: req.body.username,
-                         password: req.body.password
-                     });
-
-                     user.save((err) => {
-                         if (err) {
-                             if (err.code === 11000) {
-                                 res.json({ success: false, message: 'Username or e-mail already exists' });
-                             } else {
-                                 if (err.errors) {
-                                     if (err.errors.email) {
-                                         res.json({ success: false, message: err.errors.email.message });
-                                     }
-                                 } else {
-                                     res.json({ success: false, message: 'Could not save user. Error ', err });
-                                 }
-                             }
-                         } else {
-                             console.log(secret);
-                             const token = jwt.sign({ userId: user._id }, secret, { expiresIn: '24h' });
-
-                             res.json({ success: true, message: 'Account registered' });
-                         }
-                     });
-
-                 }
-             }
+             return res.json({ success: false, code: codes.badRequest, message: 'You must provide an e-mail' });
+         }
+         if (!req.body.password) {
+             return res.json({ success: false, code: codes.badRequest, message: 'You must provide a password' });
+         }
+         if (req.body.password !== req.body.confirm) {
+             return res.json({ success: false, code: codes.badRequest, message: 'Passwords do not match' });
          }
 
+         let user = new User({
+             email: req.body.email,
+             username: req.body.username,
+             password: req.body.password
+         });
+
+         user.save((err) => {
+             if (err) {
+                 if (err.code === codes.mdDuplicate) {
+                     return res.json({ success: false, code: codes.badRequest, message: 'Username or e-mail already exists' });
+                 }
+                 if (err.errors) {
+                     if (err.errors.username) {
+                         return res.json({ success: false, code: codes.badRequest, message: err.errors.username.message });
+                     }
+                     if (err.errors.email) {
+                         return res.json({ success: false, code: codes.badRequest, message: err.errors.email.message });
+                     }
+                     if (err.errors.password) {
+                         return res.json({ success: false, code: codes.badRequest, message: err.errors.password.message });
+                     }
+                     return res.json({ success: false, code: codes.badRequest, message: err });
+                 }
+                 return res.json({ success: false, code: codes.badRequest, message: 'Could not save user. Error: ', err });
+             }
+             res.json({ success: true, code: codes.created, message: 'Account registered' });
+         });
      });
 
      router.post('/login', (req, res) => {
          if (!req.body.username) {
-             res.json({ success: false, message: 'No username provided' });
-         } else {
-             if (!req.body.password) {
-                 res.json({ success: false, message: 'No password provided' });
-             } else {
-                 User.findOne({ username: req.body.username }, (err, user) => {
-                     if (err) {
-                         res.json({ success: false, message: err })
-                     } else {
-                         if (!user) {
-                             res.json({ success: false, message: 'Username not found' });
-                         } else {
-                             const validPassword = user.comparePassword(req.body.password);
-                             if (!validPassword) {
-                                 res.json({ success: false, message: 'Password invalid' });
-
-                             } else {
-                                 const token = jwt.sign({ userId: user._id }, secret, { expiresIn: '24h' });
-                                 res.json({ success: true, message: 'Success', token: token, user: { username: user.username } });
-                             }
-
-                         }
-                     }
-                 })
-             }
+             return res.json({ success: false, code: badRequest, message: 'No username provided' });
          }
-
+         if (!req.body.password) {
+             return res.json({ success: false, code: badRequest, message: 'No password provided' });
+         }
+         User.findOne({ username: req.body.username }, (err, user) => {
+             if (err) {
+                 return res.json({ success: false, code: codes.serverError, message: err })
+             }
+             if (!user) {
+                 return res.json({ success: false, code: codes.badRequest, message: 'Username not found' });
+             }
+             const validPassword = user.comparePassword(req.body.password);
+             if (!validPassword) {
+                 return res.json({ success: false,  code: codes.badRequest, message: 'Password invalid' });
+             }
+             const token = jwt.sign({ userId: user._id }, config.secret, { expiresIn: '24h' });
+             return res.json({ success: true, code: codes.ok, message: 'Success', token: token, user: { username: user.username } });
+         })
      })
-
 
      return router;
  }
