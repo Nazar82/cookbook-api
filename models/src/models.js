@@ -3,7 +3,6 @@ var mongoose.Promise = global.Promise;
 var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt-nodejs');
 
-
 var userSchema = new Schema({
     username: String,
     email: String,
@@ -11,23 +10,17 @@ var userSchema = new Schema({
     created_at: { type: Date, default: Date.now }
 });
 
-userSchema.pre('save', function(next){
-    console.log("sssf");
-   if(!this.isModified('password')) {
-    console.log("sssf");
-    return next;
-   }
+userSchema.pre('save', function(next) {
+    if (!this.isModified('password')) {
+        return next;
+    }
 
-   bcrypt.hash(this.password, null, null, (err, hash) => {
-    console.log("ggg");
-     if(err) return next(err);
-     this.password = hash;
-     next();
-   });
-
-}); 
-
-
+    bcrypt.hash(this.password, null, null, (err, hash) => {
+        if (err) return next(err);
+        this.password = hash;
+        next();
+    });
+});
 
 var recipeSchema = new mongoose.Schema({
     title: String,

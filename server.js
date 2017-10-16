@@ -33,7 +33,8 @@ var auth = require("./routes/authenticate")(router);
 app.use(logger('dev'));
 app.use(session({
     secret: "keyboard cat"
-}));
+})); 
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());

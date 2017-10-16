@@ -1,34 +1,34 @@
-var express = require("express");
-var router = express.Router();
-var mongoose = require("mongoose");
-var Recipe = mongoose.model("Recipe");
+const express = require('express');
+const router = express.Router();
+const mongoose = require('mongoose');
+const Recipe = mongoose.model('Recipe');
 const config = require('../config');
-const jwt = require("jsonwebtoken");
-const codes = require('../codes');
+const jwt = require('jsonwebtoken');
+const http_codes = require('../http_codes');
 
-router.get("/recipes", function(req, res) {
+router.get('/recipes', function(req, res) {
 
     Recipe.find(function(err, data) {
         if (err) {
-            res.send({ code: codes.serverError, error: err });
+            res.json({ code: http_codes.SERVER_ERROR, error: err });
         }
         res.send(data);
     });
 });
 
-router.get("/recipe/:id", function(req, res) {
+router.get('/recipe/:id', function(req, res) {
     Recipe.findById(req.params.id, function(err, recipe) {
         if (err) {
-            res.send({ code: codes.serverError, error: err });
+            res.json({ code: http_codes.SERVER_ERROR, error: err });
         }
         res.json(recipe);
     })
 });
 
-router.put("/recipe/:id", function(req, res) {
+router.put('/recipe/:id', function(req, res) {
     Recipe.findById(req.params.id, function(err, recipe) {
         if (err) {
-            res.json({ code: codes.serverError, error: err });
+            res.json({ code: http_codes.SERVER_ERROR, error: err });
         }
         recipe.title = req.body.title;
         recipe.descript = req.body.descript;
@@ -40,27 +40,23 @@ router.put("/recipe/:id", function(req, res) {
         recipe.posted_by = req.body.posted_by;
         recipe.save(function(err, recipe) {
             if (err) {
-                res.json({ code: codes.serverError, error: err });
+                res.json({ code: http_codes.SERVER_ERROR, error: err });
             }
             return res.json(recipe);
-
         });
-
     });
-
 });
 
-router.delete("/recipe/:id", function(req, res) {
+router.delete('/recipe/:id', function(req, res) {
     Recipe.remove({
         _id: req.params.id
     }, function(err, data) {
         if (err) {
-            res.json({ code: codes.serverError, error: err });
+            res.json({ code: http_codes.SERVER_ERROR, error: err });
         }
         res.send(data);
     });
 });
-
 
 router.use((req, res, next) => {
     const token = req.headers['authorization'];
@@ -76,8 +72,7 @@ router.use((req, res, next) => {
     });
 });
 
-
-router.post("/recipes", function(req, res) {
+router.post('/recipes', function(req, res) {
     var recipe = new Recipe();
     recipe.title = req.body.title;
     recipe.descript = req.body.descript;
@@ -90,7 +85,7 @@ router.post("/recipes", function(req, res) {
 
     recipe.save(function(err, recipe) {
         if (err) {
-            res.send({ code: codes.serverError, error: err });
+            res.json({ code: http_codes.SERVER_ERROR, error: err });
         }
         res.json(recipe);
     });

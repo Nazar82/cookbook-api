@@ -1,20 +1,21 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt-nodejs');
 
 
-
-let usernameLengthChecker = (username) => {
+function usernameLengthChecker(username) {
     if (!username) {
         return false;
     }
-    if (username.length < 3 || username.length > 15) {
+    const MIN_LENGTH = 3;
+    const MAX_LENGTH = 15;
+    if (username.length < MIN_LENGTH || username.length > MAX_LENGTH) {
         return false;
     }
     return true;
 };
 
-let validUsername = (username) => {
+function validUsername(username) {
     if (!username) {
         return false;
     }
@@ -32,30 +33,29 @@ const usernameValidators = [{
     }
 ];
 
-
-
-let emailLengthChecker = (email) => {
+function emailLengthChecker(email) {
     if (!email) {
         return false;
     }
-    if (email.length < 5 || email.length > 30) {
+    const MIN_LENGTH = 5;
+    const MAX_LENGTH = 254;
+    if (email.length < MIN_LENGTH || email.length > MAX_LENGTH) {
         return false;
     }
     return true;
 };
 
-
-let validEmailChecker = (email) => {
+function validEmailChecker(email) {
     if (!email) {
         return false;
     }
     const reg = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-    return reg.test(email); 
+    return reg.test(email);
 };
 
 const emailValidators = [{
         validator: emailLengthChecker,
-        message: 'E-mail must be at least 5 characters but no more than 30'
+        message: 'E-mail must be at least 5 characters but no more than 254'
     },
     {
         validator: validEmailChecker,
@@ -63,24 +63,22 @@ const emailValidators = [{
     }
 ];
 
-
-let passwordLengthChecker = (password) => {
+function passwordLengthChecker(password) {
     if (!password) {
         return false;
     }
-    if (password.length < 3 || password.length > 35) {
+    const MIN_LENGTH = 6;
+    const MAX_LENGTH = 35;
+    if (password.length < MIN_LENGTH || password.length > MAX_LENGTH) {
         return false;
     }
     return true;
 };
 
-
-
 const passwordValidators = [{
     validator: passwordLengthChecker,
-    message: 'Password must be at least 3 characters but no more than 35'
+    message: 'Password must be at least 6 characters but no more than 35'
 }];
-
 
 const userSchema = new Schema({
     username: { type: String, required: true, unique: true, validate: usernameValidators },
@@ -104,7 +102,6 @@ userSchema.pre('save', function(next) {
 userSchema.methods.comparePassword = function(password) {
     return bcrypt.compareSync(password, this.password);
 }
-
 
 const recipeSchema = new mongoose.Schema({
     title: String,
