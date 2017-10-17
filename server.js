@@ -1,12 +1,12 @@
-var express = require("express");
+var express = require('express');
 var path = require('path');
 var logger = require('morgan');
-var bodyParser = require("body-parser");
-var cookieParser = require("cookie-parser");
-var session = require("express-session");
-var passport = require("passport");
-var mongoose = require("mongoose");
-var cors = require("cors");
+var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
+var passport = require('passport');
+var mongoose = require('mongoose');
+var cors = require('cors');
 var router = express.Router();
 
 var options = {
@@ -14,12 +14,12 @@ var options = {
     replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } }
 };
 
-var mongodb = "mongodb://Nazar82:020702070207@ds159254.mlab.com:59254/cookbook_data_base";
+var mongodb = 'mongodb://Nazar82:020702070207@ds159254.mlab.com:59254/cookbook_data_base';
 mongoose.connect(mongodb, options);
 var conn = mongoose.connection;
 conn.on('error', console.error.bind(console, 'connection error:'));
-conn.once("open", function() {
-    console.log("Connected to mlab");
+conn.once('open', function() {
+    console.log('Connected to mlab');
 });
 
 require('./models/models.js');
@@ -27,12 +27,12 @@ require('./models/models.js');
 var app = express();
 var port = process.env.PORT || 8080;
 
-var api = require("./routes/api");
-var auth = require("./routes/authenticate")(router);
+var api = require('./routes/api');
+var auth = require('./routes/authenticate')(router);
 
 app.use(logger('dev'));
 app.use(session({
-    secret: "keyboard cat"
+    secret: 'keyboard cat'
 })); 
 
 app.use(bodyParser.json());
@@ -43,12 +43,12 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(cors());
 
-app.use("/api", api);
-app.use("/auth", auth);
+app.use('/api', api);
+app.use('/auth', auth);
 
-var initPassport = require("./passport-init");
+var initPassport = require('./passport-init');
 initPassport(passport);
 
 app.listen(port, function() {
-    console.log("app running on " + port);
+    console.log('app running on ' + port);
 })
