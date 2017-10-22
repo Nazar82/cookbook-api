@@ -45,12 +45,19 @@ router.get('/recipesbycuisine', function(req, res) {
     });
 });
 
-router.get('/recipe/:id', function(req, res) {
-    Recipe.findById(req.params.id, function(err, recipe) {
+router.get('/onerecipe', function(req, res) {
+    console.log(req.query);
+    Recipe.findById(req.query.id, function(err, recipe) {
         if (err) {
             res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
         }
-        res.json(recipe);
+        const parsedRecipe = {};
+        parsedRecipe.title = recipe.title;
+        parsedRecipe.descript = recipe.descript;
+        parsedRecipe.ingredients = recipe.ingredients;
+        parsedRecipe.directions = recipe.directions;
+        parsedRecipe.posted_by = recipe.posted_by;
+        res.json(parsedRecipe);
     });
 });
 
