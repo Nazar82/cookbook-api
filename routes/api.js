@@ -16,7 +16,6 @@ router.get('/recipes', function(req, res) {
 });
 
 router.get('/recipesbymain', function(req, res) {
-    console.log(req.query);
     Recipe.find({ main: req.query.main }, function(err, filteredRecipes) {
         if (err) {
             res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
@@ -26,7 +25,6 @@ router.get('/recipesbymain', function(req, res) {
 });
 
 router.get('/recipesbytype', function(req, res) {
-    console.log(req.query);
     Recipe.find({ type: req.query.type }, function(err, filteredRecipes) {
         if (err) {
             res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
@@ -36,7 +34,6 @@ router.get('/recipesbytype', function(req, res) {
 });
 
 router.get('/recipesbycuisine', function(req, res) {
-    console.log(req.query);
     Recipe.find({ cuisine: req.query.cuisine }, function(err, filteredRecipes) {
         if (err) {
             res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
@@ -45,9 +42,8 @@ router.get('/recipesbycuisine', function(req, res) {
     });
 });
 
-router.get('/onerecipe', function(req, res) {
-    console.log(req.query);
-    Recipe.findById(req.query.id, function(err, recipe) {
+router.get('/recipe/:id', function(req, res) {
+    Recipe.findById(req.params.id, function(err, recipe) {
         if (err) {
             res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
         }
