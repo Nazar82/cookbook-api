@@ -42,7 +42,7 @@ router.get('/recipesbycuisine', function(req, res) {
     });
 });
 
-router.get('/recipe/:id', function(req, res) {
+router.get('/recipes/:id', function(req, res) {
     Recipe.findById(req.params.id, function(err, recipe) {
         if (err) {
             res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
