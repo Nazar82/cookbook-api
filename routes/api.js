@@ -7,27 +7,45 @@ const jwt = require('jsonwebtoken');
 const HTTP_STATUS_CODES = require('../http_codes');
 
 router.get('/recipes', function(req, res) {
-    Recipe.find(function(err, data) {
+    Recipe.find(function(err, recipes) {
         if (err) {
-            res.json({code: HTTP_STATUS_CODES.SERVER_ERROR, error: err});
+            res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
         }
-        res.send(data);
+        res.send(recipes);
+    });
+});
+
+router.get('/recipesbymain', function(req, res) {
+    Recipe.find({ main: req.query.main }, function(err, filteredRecipes) {
+        if (err) {
+            res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
+        }
+        res.json(filteredRecipes);
     });
 });
 
 router.get('/recipesbytype', function(req, res) {
-    Recipe.find({type: req.query.type}, function(err, data) {
+    Recipe.find({ type: req.query.type }, function(err, filteredRecipes) {
         if (err) {
-            res.json({code: HTTP_STATUS_CODES.SERVER_ERROR, error: err});
+            res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
         }
-        res.json(data);
+        res.json(filteredRecipes);
     });
   });
 
-router.get("/recipe/:id", function(req, res) {
+router.get('/recipesbycuisine', function(req, res) {
+    Recipe.find({ cuisine: req.query.cuisine }, function(err, filteredRecipes) {
+        if (err) {
+            res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
+        }
+        res.json(filteredRecipes);
+    });
+});
+
+router.get('/recipes/:id', function(req, res) {
     Recipe.findById(req.params.id, function(err, recipe) {
         if (err) {
-            res.json({code: HTTP_STATUS_CODES.SERVER_ERROR, error: err});
+            res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
         }
         const parsedRecipe = {};
         parsedRecipe.title = recipe.title;
@@ -42,7 +60,7 @@ router.get("/recipe/:id", function(req, res) {
 router.put('/recipe/:id', function(req, res) {
     Recipe.findById(req.params.id, function(err, recipe) {
         if (err) {
-            res.json({code: HTTP_STATUS_CODES.SERVER_ERROR, error: err});
+            res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
         }
         recipe.title = req.body.title;
         recipe.descript = req.body.descript;
@@ -54,7 +72,7 @@ router.put('/recipe/:id', function(req, res) {
         recipe.posted_by = req.body.posted_by;
         recipe.save(function(err, recipe) {
             if (err) {
-                res.json({code: HTTP_STATUS_CODES.SERVER_ERROR, error: err});
+                res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
             }
             return res.json(recipe);
         });
@@ -62,9 +80,9 @@ router.put('/recipe/:id', function(req, res) {
 });
 
 router.delete('/recipe/:id', function(req, res) {
-    Recipe.remove({_id: req.params.id}, function(err, data) {
+    Recipe.remove({ _id: req.params.id }, function(err, data) {
         if (err) {
-            res.json({code: HTTP_STATUS_CODES.SERVER_ERROR, error: err});
+            res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
         }
         res.send(data);
     });
@@ -73,11 +91,11 @@ router.delete('/recipe/:id', function(req, res) {
 router.use((req, res, next) => {
     const token = req.headers['authorization'];
     if (!token) {
-        return res.json({success: false, message: 'No token provided'});
+        return res.json({ success: false, message: 'No token provided' });
     }
     jwt.verify(token, config.secret, (err, decoded) => {
         if (err) {
-            return res.json({success: false, message: 'Token invalid ' + err});
+            return res.json({ success: false, message: 'Token invalid ' + err });
         }
         req.decoded = decoded;
         next();
@@ -97,7 +115,7 @@ router.post('/recipes', function(req, res) {
 
     recipe.save(function(err, recipe) {
         if (err) {
-            res.json({code: HTTP_STATUS_CODES.SERVER_ERROR, error: err});
+            res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
         }
         res.json(recipe);
     });
