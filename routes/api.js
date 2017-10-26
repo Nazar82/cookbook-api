@@ -31,7 +31,7 @@ router.get('/recipesbytype', function(req, res) {
         }
         res.json(filteredRecipes);
     });
-});
+  });
 
 router.get('/recipesbycuisine', function(req, res) {
     Recipe.find({ cuisine: req.query.cuisine }, function(err, filteredRecipes) {
