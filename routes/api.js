@@ -7,39 +7,86 @@ const jwt = require('jsonwebtoken');
 const HTTP_STATUS_CODES = require('../http_codes');
 
 router.get('/recipes', function(req, res) {
-    Recipe.find(function(err, recipes) {
-        if (err) {
-            res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
-        }
-        res.send(recipes);
-    });
+    const perPage = 2;
+    const page = Number(req.query.page) || 1;
+    Recipe
+        .find({})
+        .skip((perPage * page) - perPage)
+        .limit(perPage)
+        .exec(function(err, recipes) {
+            if (err) {
+                res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
+            }
+            Recipe.count().exec(function(err, count) {
+                if (err) {
+                    res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
+                }
+                res.json({ recipes: recipes, recipes_number: count });
+            });
+        });
 });
+
 
 router.get('/recipesbymain', function(req, res) {
-    Recipe.find({ main: req.query.main }, function(err, filteredRecipes) {
-        if (err) {
-            res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
-        }
-        res.json(filteredRecipes);
-    });
+    const perPage = 2;
+    const page = Number(req.query.page) || 1;
+    Recipe.find({ main: req.query.main })
+        .skip((perPage * page) - perPage)
+        .limit(perPage)
+        .exec(function(err, recipes) {
+            if (err) {
+                res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
+            }
+            Recipe.count({ main: req.query.main }).exec(function(err, count) {
+                if (err) {
+                    res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
+                }
+                console.log(count);
+                res.json({ recipes: recipes, recipes_number: count });
+            });
+        });
 });
+
 
 router.get('/recipesbytype', function(req, res) {
-    Recipe.find({ type: req.query.type }, function(err, filteredRecipes) {
-        if (err) {
-            res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
-        }
-        res.json(filteredRecipes);
-    });
+    const perPage = 2;
+    const page = Number(req.query.page) || 1;
+    Recipe.find({ type: req.query.type })
+        .skip((perPage * page) - perPage)
+        .limit(perPage)
+        .exec(function(err, recipes) {
+            if (err) {
+                res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
+            }
+            Recipe.count({ type: req.query.type }).exec(function(err, count) {
+                if (err) {
+                    res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
+                }
+                console.log(count);
+                res.json({ recipes: recipes, recipes_number: count });
+            });
+        });
 });
 
+
 router.get('/recipesbycuisine', function(req, res) {
-    Recipe.find({ cuisine: req.query.cuisine }, function(err, filteredRecipes) {
-        if (err) {
-            res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
-        }
-        res.json(filteredRecipes);
-    });
+    const perPage = 2;
+    const page = Number(req.query.page) || 1;
+    Recipe.find({ cuisine: req.query.cuisine })
+        .skip((perPage * page) - perPage)
+        .limit(perPage)
+        .exec(function(err, recipes) {
+            if (err) {
+                res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
+            }
+            Recipe.count({ cuisine: req.query.cuisine }).exec(function(err, count) {
+                if (err) {
+                    res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
+                }
+                console.log(count);
+                res.json({ recipes: recipes, recipes_number: count });
+            });
+        });
 });
 
 router.get('/recipes/:id', function(req, res) {
