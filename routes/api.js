@@ -59,7 +59,6 @@ router.get('/recipesbytype', function(req, res) {
                 if (err) {
                     return res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
                 }
-                console.log(count);
                 res.json({ recipes: recipes, recipes_number: count });
             });
         });
@@ -79,7 +78,6 @@ router.get('/recipesbycuisine', function(req, res) {
                 if (err) {
                     return res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
                 }
-                console.log(count);
                 res.json({ recipes: recipes, recipes_number: count });
             });
         });
