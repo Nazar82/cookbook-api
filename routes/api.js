@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const Recipe = mongoose.model('Recipe');
+const User = mongoose.model('User');
 const config = require('../config');
 const jwt = require('jsonwebtoken');
 const HTTP_STATUS_CODES = require('../http_codes');
@@ -11,6 +12,7 @@ router.get('/recipes', function(req, res) {
     const page = Number(req.query.page) || 1;
     Recipe
         .find({})
+        .sort({ 'created_at': -1 })
         .skip((perPage * page) - perPage)
         .limit(perPage)
         .exec(function(err, recipes) {
@@ -30,6 +32,7 @@ router.get('/recipesbymain', function(req, res) {
     const perPage = 2;
     const page = Number(req.query.page) || 1;
     Recipe.find({ main: req.query.main })
+        .sort({ 'created_at': -1 })
         .skip((perPage * page) - perPage)
         .limit(perPage)
         .exec(function(err, recipes) {
@@ -49,6 +52,7 @@ router.get('/recipesbytype', function(req, res) {
     const perPage = 2;
     const page = Number(req.query.page) || 1;
     Recipe.find({ type: req.query.type })
+        .sort({ 'created_at': -1 })
         .skip((perPage * page) - perPage)
         .limit(perPage)
         .exec(function(err, recipes) {
@@ -68,6 +72,7 @@ router.get('/recipesbycuisine', function(req, res) {
     const perPage = 2;
     const page = Number(req.query.page) || 1;
     Recipe.find({ cuisine: req.query.cuisine })
+        .sort({ 'created_at': -1 })
         .skip((perPage * page) - perPage)
         .limit(perPage)
         .exec(function(err, recipes) {
@@ -89,43 +94,17 @@ router.get('/recipes/:id', function(req, res) {
             return res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
         }
         const parsedRecipe = {};
+        parsedRecipe._id = recipe._id;
         parsedRecipe.title = recipe.title;
         parsedRecipe.descript = recipe.descript;
         parsedRecipe.ingredients = recipe.ingredients;
         parsedRecipe.directions = recipe.directions;
+        parsedRecipe.type = recipe.type;
+        parsedRecipe.main = recipe.main;
+        parsedRecipe.cuisine = recipe.cuisine;
         parsedRecipe.posted_by = recipe.posted_by;
+
         res.json(parsedRecipe);
-    });
-});
-
-router.put('/recipe/:id', function(req, res) {
-    Recipe.findById(req.params.id, function(err, recipe) {
-        if (err) {
-            return res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
-        }
-        recipe.title = req.body.title;
-        recipe.descript = req.body.descript;
-        recipe.ingredients = req.body.ingredients;
-        recipe.directions = req.body.directions;
-        recipe.main = req.body.main;
-        recipe.type = req.body.type;
-        recipe.cuisine = req.body.cuisine;
-        recipe.posted_by = req.body.posted_by;
-        recipe.save(function(err, recipe) {
-            if (err) {
-                return res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
-            }
-            res.json(recipe);
-        });
-    });
-});
-
-router.delete('/recipe/:id', function(req, res) {
-    Recipe.remove({ _id: req.params.id }, function(err, data) {
-        if (err) {
-            return res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
-        }
-        res.send(data);
     });
 });
 
@@ -139,6 +118,7 @@ router.use((req, res, next) => {
             return res.json({ success: false, message: 'Token invalid ' + err });
         }
         req.decoded = decoded;
+        console.log(decoded);
         next();
     });
 });
@@ -159,6 +139,58 @@ router.post('/recipes', function(req, res) {
             return res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
         }
         res.json(recipe);
+    });
+});
+
+router.put('/recipe/:id', function(req, res) {
+    User.findOne({ _id: req.decoded.userId }, (err, user) => {
+        if (err) {
+            return res.json({ success: false, code: HTTP_STATUS_CODES.SERVER_ERROR, message: err });
+        }
+        Recipe.findById(req.params.id, function(err, recipe) {
+            if (err) {
+                return res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
+            }
+            if (user.username !== recipe.posted_by) {
+                return res.json({ code: HTTP_STATUS_CODES.BAD_REQUEST, message: 'You may edit only recipes You have posted' });
+            }
+            recipe.title = req.body.title;
+            recipe.descript = req.body.descript;
+            recipe.ingredients = req.body.ingredients;
+            recipe.directions = req.body.directions;
+            recipe.main = req.body.main;
+            recipe.type = req.body.type;
+            recipe.cuisine = req.body.cuisine;
+            recipe.save(function(err, recipe) {
+                if (err) {
+                    return res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
+                }
+                res.json(recipe);
+            });
+        });
+    });
+});
+
+
+router.delete('/recipe/:id', function(req, res) {
+    User.findOne({ _id: req.decoded.userId }, (err, user) => {
+        if (err) {
+            return res.json({ success: false, code: HTTP_STATUS_CODES.SERVER_ERROR, message: err });
+        }
+        Recipe.findById(req.params.id, function(err, recipe) {
+            if (err) {
+                return res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
+            }
+            if (user.username !== recipe.posted_by) {
+                return res.json({ code: HTTP_STATUS_CODES.BAD_REQUEST, message: 'You may delete only recipes You have posted' });
+            }
+            Recipe.remove({ _id: req.params.id }, function(err, data) {
+                if (err) {
+                    return res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
+                }
+                res.json(data);
+            });
+        });
     });
 });
 
