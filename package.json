@@ -19,7 +19,8 @@
     "mongoose": "^4.9.7",
     "morgan": "^1.8.2",
     "passport": "^0.3.2",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "winston": "^2.4.0"
   },
   "devDependencies": {
     "eslint": "^4.9.0",
