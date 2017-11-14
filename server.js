@@ -1,10 +1,8 @@
 const express = require('express');
 const path = require('path');
-const logger = require('morgan');
+const logger = require('./logs/log')(module);
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const session = require('express-session');
-const passport = require('passport');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const router = express.Router();
@@ -19,7 +17,7 @@ mongoose.connect(mongodb, options);
 const conn = mongoose.connection;
 conn.on('error', console.error.bind(console, 'connection error:'));
 conn.once('open', function() {
-    console.log('Connected to mlab');
+    logger.info('Connected to mlab');
 });
 
 require('./models/models.js');
@@ -30,22 +28,15 @@ const port = process.env.PORT || 8080;
 const api = require('./routes/api');
 const auth = require('./routes/authenticate')(router);
 
-app.use(logger('dev'));
-app.use(session({
-    secret: 'keyboard cat',
-}));
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(passport.initialize());
-app.use(passport.session());
 app.use(cors());
 
 app.use('/api', api);
 app.use('/auth', auth);
 
 app.listen(port, function() {
-    console.log('app running on ' + port);
+    logger.info('App running on ' + port);
 });
