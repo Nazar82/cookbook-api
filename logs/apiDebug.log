@@ -1,4 +1,0 @@
-{"level":"info","message":"request recieved","timestamp":"2017-11-14T10:40:41.042Z"}
-{"level":"error","message":"request recieved","timestamp":"2017-11-14T10:42:25.004Z"}
-{"level":"error","message":"request recieved","timestamp":"2017-11-14T10:52:21.927Z"}
-{"code":500,"error":"server error","level":"error","message":"","timestamp":"2017-11-14T10:55:42.790Z"}
