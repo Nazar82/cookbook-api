@@ -7,13 +7,22 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const router = express.Router();
 
-const options = {
-    server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } },
-    replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } },
-};
-
 const mongodb = 'mongodb://Nazar82:020702070207@ds159254.mlab.com:59254/cookbook_data_base';
-mongoose.connect(mongodb, options);
+
+mongoose.connect(mongodb, {
+    socketTimeoutMS: 30000,
+    keepAlive: true,
+    reconnectTries: 30
+});
+
+// const options = {
+//     server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } },
+//     replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } },
+//     useMongoClient: true
+// };
+
+
+// mongoose.connect(mongodb, options);
 const conn = mongoose.connection;
 conn.on('error', console.error.bind(console, 'connection error:'));
 conn.once('open', function() {

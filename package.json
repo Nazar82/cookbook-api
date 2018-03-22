@@ -1,46 +1,46 @@
 {
-  "name": "cookbook",
-  "version": "1.0.0",
-  "description": "app for storing recipes",
-  "main": "index.js",
-  "scripts": {
-    "start": "node server.js"
-  },
-  "author": "Naz",
-  "license": "ISC",
-  "dependencies": {
-    "bcrypt-nodejs": "0.0.3",
-    "body-parser": "^1.17.1",
-    "cookie-parser": "^1.4.3",
-    "cors": "^2.8.4",
-    "express": "^4.15.2",
-    "express-session": "^1.15.3",
-    "jsonwebtoken": "^8.0.1",
-    "mongoose": "^4.9.7",
-    "morgan": "^1.8.2",
-    "passport": "^0.3.2",
-    "passport-local": "^1.0.0",
-    "winston": "^2.4.0"
-  },
-  "devDependencies": {
-    "eslint": "^4.9.0",
-    "eslint-config-google": "^0.9.1",
-    "grunt": "^1.0.1",
-    "grunt-autoprefixer": "^3.0.4",
-    "grunt-contrib-concat": "^1.0.1",
-    "grunt-contrib-cssmin": "^2.2.0",
-    "grunt-contrib-uglify": "^3.0.1",
-    "grunt-contrib-watch": "^1.0.0",
-    "grunt-ng-annotate": "^3.0.0",
-    "grunt-postcss": "^0.8.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Nazar82/cook-book.git"
-  },
-  "keywords": [],
-  "bugs": {
-    "url": "https://github.com/Nazar82/cook-book/issues"
-  },
-  "homepage": "https://github.com/Nazar82/cook-book#readme"
+    "name": "cookbook",
+    "version": "1.0.0",
+    "description": "app for storing recipes",
+    "main": "index.js",
+    "scripts": {
+        "start": "node server.js"
+    },
+    "author": "Naz",
+    "license": "ISC",
+    "dependencies": {
+        "bcrypt-nodejs": "0.0.3",
+        "body-parser": "^1.17.1",
+        "cookie-parser": "^1.4.3",
+        "cors": "^2.8.4",
+        "express": "^4.15.2",
+        "express-session": "^1.15.3",
+        "jsonwebtoken": "^8.0.1",
+        "mongoose": "^5.0.0",
+        "morgan": "^1.8.2",
+        "passport": "^0.3.2",
+        "passport-local": "^1.0.0",
+        "winston": "^2.4.0"
+    },
+    "devDependencies": {
+        "eslint": "^4.9.0",
+        "eslint-config-google": "^0.9.1",
+        "grunt": "^1.0.1",
+        "grunt-autoprefixer": "^3.0.4",
+        "grunt-contrib-concat": "^1.0.1",
+        "grunt-contrib-cssmin": "^2.2.0",
+        "grunt-contrib-uglify": "^3.0.1",
+        "grunt-contrib-watch": "^1.0.0",
+        "grunt-ng-annotate": "^3.0.0",
+        "grunt-postcss": "^0.8.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Nazar82/cook-book.git"
+    },
+    "keywords": [],
+    "bugs": {
+        "url": "https://github.com/Nazar82/cook-book/issues"
+    },
+    "homepage": "https://github.com/Nazar82/cook-book#readme"
 }
