@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 const HTTP_STATUS_CODES = require('../http_codes');
 const logger = require('../logs/log')(module);
 
-router.get('/recipes', function(req, res) {
+router.get('/recipes', function (req, res) {
     const perPage = 2;
     const page = Number(req.query.page) || 1;
     Recipe
@@ -16,12 +16,12 @@ router.get('/recipes', function(req, res) {
         .sort({ 'created_at': -1 })
         .skip((perPage * page) - perPage)
         .limit(perPage)
-        .exec(function(err, recipes) {
+        .exec(function (err, recipes) {
             if (err) {
                 logger.error({ message: 'Server error', code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
                 return res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, message: 'Server error' });
             }
-            Recipe.count().exec(function(err, count) {
+            Recipe.count().exec(function (err, count) {
                 if (err) {
                     logger.error({ message: 'Server error', code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
                     return res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, message: 'Server error' });
@@ -31,19 +31,27 @@ router.get('/recipes', function(req, res) {
         });
 });
 
-router.get('/recipesbymain', function(req, res) {
+router.get('/recipesbymain', function (req, res) {
     const perPage = 2;
     const page = Number(req.query.page) || 1;
-    Recipe.find({ main: req.query.main })
+
+    logger.info(req.query);
+
+    let query = {};
+    req.query.main ? query.main = req.query.main : false;
+    req.query.type ? query.type = req.query.type : false;
+    req.query.cuisine ? query.cuisine = req.query.cuisine : false;
+
+    Recipe.find({ query })
         .sort({ 'created_at': -1 })
         .skip((perPage * page) - perPage)
         .limit(perPage)
-        .exec(function(err, recipes) {
+        .exec(function (err, recipes) {
             if (err) {
                 logger.error({ message: 'Server error', code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
                 return res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, message: 'Server error' });
             }
-            Recipe.count({ main: req.query.main }).exec(function(err, count) {
+            Recipe.count({ main: req.query.main }).exec(function (err, count) {
                 if (err) {
                     return res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, message: 'Server error' });
                 }
@@ -52,19 +60,19 @@ router.get('/recipesbymain', function(req, res) {
         });
 });
 
-router.get('/recipesbytype', function(req, res) {
+router.get('/recipesbytype', function (req, res) {
     const perPage = 2;
     const page = Number(req.query.page) || 1;
     Recipe.find({ type: req.query.type })
         .sort({ 'created_at': -1 })
         .skip((perPage * page) - perPage)
         .limit(perPage)
-        .exec(function(err, recipes) {
+        .exec(function (err, recipes) {
             if (err) {
                 logger.error({ message: 'Server error', code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
                 return res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, message: 'Server error' });
             }
-            Recipe.count({ type: req.query.type }).exec(function(err, count) {
+            Recipe.count({ type: req.query.type }).exec(function (err, count) {
                 if (err) {
                     logger.error({ message: 'Server error', code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
                     return res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, message: 'Server error' });
@@ -74,19 +82,19 @@ router.get('/recipesbytype', function(req, res) {
         });
 });
 
-router.get('/recipesbycuisine', function(req, res) {
+router.get('/recipesbycuisine', function (req, res) {
     const perPage = 2;
     const page = Number(req.query.page) || 1;
     Recipe.find({ cuisine: req.query.cuisine })
         .sort({ 'created_at': -1 })
         .skip((perPage * page) - perPage)
         .limit(perPage)
-        .exec(function(err, recipes) {
+        .exec(function (err, recipes) {
             if (err) {
                 logger.error({ message: 'Server error', code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
                 return res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, message: 'Server error' });
             }
-            Recipe.count({ cuisine: req.query.cuisine }).exec(function(err, count) {
+            Recipe.count({ cuisine: req.query.cuisine }).exec(function (err, count) {
                 if (err) {
                     logger.error({ message: 'Server error', code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
                     return res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, message: 'Server error' });
@@ -96,8 +104,8 @@ router.get('/recipesbycuisine', function(req, res) {
         });
 });
 
-router.get('/recipes/:id', function(req, res) {
-    Recipe.findById(req.params.id, function(err, recipe) {
+router.get('/recipes/:id', function (req, res) {
+    Recipe.findById(req.params.id, function (err, recipe) {
         if (err) {
             logger.error({ message: 'Server error', code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
             return res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, message: 'Server error' });
@@ -132,7 +140,7 @@ router.use((req, res, next) => {
     });
 });
 
-router.post('/recipes', function(req, res) {
+router.post('/recipes', function (req, res) {
     const recipe = new Recipe();
     recipe.title = req.body.title;
     recipe.descript = req.body.descript;
@@ -143,7 +151,7 @@ router.post('/recipes', function(req, res) {
     recipe.cuisine = req.body.cuisine;
     recipe.posted_by = req.body.posted_by;
 
-    recipe.save(function(err, recipe) {
+    recipe.save(function (err, recipe) {
         if (err) {
             logger.error({ message: 'Server error', code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
             return res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, message: 'Server error' });
@@ -152,13 +160,13 @@ router.post('/recipes', function(req, res) {
     });
 });
 
-router.put('/recipe/:id', function(req, res) {
+router.put('/recipe/:id', function (req, res) {
     User.findOne({ _id: req.decoded.userId }, (err, user) => {
         if (err) {
             logger.error({ message: 'Server error', code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
             return res.json({ success: false, code: HTTP_STATUS_CODES.SERVER_ERROR, message: err });
         }
-        Recipe.findById(req.params.id, function(err, recipe) {
+        Recipe.findById(req.params.id, function (err, recipe) {
             if (err) {
                 logger.error({ message: 'Server error', code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
                 return res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, message: 'Server error' });
@@ -173,7 +181,7 @@ router.put('/recipe/:id', function(req, res) {
             recipe.main = req.body.main;
             recipe.type = req.body.type;
             recipe.cuisine = req.body.cuisine;
-            recipe.save(function(err, recipe) {
+            recipe.save(function (err, recipe) {
                 if (err) {
                     logger.error({ message: 'Server error', code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
                     return res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, message: 'Server error' });
@@ -185,13 +193,13 @@ router.put('/recipe/:id', function(req, res) {
 });
 
 
-router.delete('/recipe/:id', function(req, res) {
+router.delete('/recipe/:id', function (req, res) {
     User.findOne({ _id: req.decoded.userId }, (err, user) => {
         if (err) {
             logger.error({ message: 'Server error', code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
             return res.json({ success: false, code: HTTP_STATUS_CODES.SERVER_ERROR, message: err });
         }
-        Recipe.findById(req.params.id, function(err, recipe) {
+        Recipe.findById(req.params.id, function (err, recipe) {
             if (err) {
                 logger.error({ message: 'Server error', code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
                 return res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, message: 'Server error' });
@@ -199,7 +207,7 @@ router.delete('/recipe/:id', function(req, res) {
             if (user.username !== recipe.posted_by) {
                 return res.json({ code: HTTP_STATUS_CODES.FORBIDDEN, message: 'You may delete only recipes You have posted' });
             }
-            Recipe.remove({ _id: req.params.id }, function(err, data) {
+            Recipe.remove({ _id: req.params.id }, function (err, data) {
                 if (err) {
                     logger.error({ message: 'Server error', code: HTTP_STATUS_CODES.SERVER_ERROR, error: err });
                     return res.json({ code: HTTP_STATUS_CODES.SERVER_ERROR, message: 'Server error' });
