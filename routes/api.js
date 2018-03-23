@@ -9,7 +9,7 @@ const HTTP_STATUS_CODES = require('../http_codes');
 const logger = require('../logs/log')(module);
 
 router.get('/recipes', function (req, res) {
-    const perPage = 2;
+    const perPage = 4;
     const page = Number(req.query.page) || 1;
     Recipe
         .find({})
@@ -35,14 +35,7 @@ router.get('/recipesbymain', function (req, res) {
     const perPage = 2;
     const page = Number(req.query.page) || 1;
 
-    logger.info(req.query);
-
-    let query = {};
-    req.query.main ? query.main = req.query.main : false;
-    req.query.type ? query.type = req.query.type : false;
-    req.query.cuisine ? query.cuisine = req.query.cuisine : false;
-
-    Recipe.find({ query })
+    Recipe.find({ main: req.query.main })
         .sort({ 'created_at': -1 })
         .skip((perPage * page) - perPage)
         .limit(perPage)

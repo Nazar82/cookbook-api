@@ -15,17 +15,9 @@ mongoose.connect(mongodb, {
     reconnectTries: 30
 });
 
-// const options = {
-//     server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } },
-//     replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } },
-//     useMongoClient: true
-// };
-
-
-// mongoose.connect(mongodb, options);
 const conn = mongoose.connection;
 conn.on('error', console.error.bind(console, 'connection error:'));
-conn.once('open', function() {
+conn.once('open', function () {
     logger.info('Connected to mlab');
 });
 
@@ -46,6 +38,6 @@ app.use(cors());
 app.use('/api', api);
 app.use('/auth', auth);
 
-app.listen(port, function() {
+app.listen(port, function () {
     logger.info('App running on ' + port);
 });
