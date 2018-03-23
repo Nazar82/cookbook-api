@@ -15,14 +15,6 @@ mongoose.connect(mongodb, {
     reconnectTries: 30
 });
 
-// const options = {
-//     server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } },
-//     replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } },
-//     useMongoClient: true
-// };
-
-
-// mongoose.connect(mongodb, options);
 const conn = mongoose.connection;
 conn.on('error', console.error.bind(console, 'connection error:'));
 conn.once('open', function() {
