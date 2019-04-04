@@ -39,5 +39,5 @@ app.use('/api', api);
 app.use('/auth', auth);
 
 app.listen(port, function () {
-    logger.info('App running on ' + port);
+    logger.info('The App running on ' + port);
 });
