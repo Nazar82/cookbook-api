@@ -8,6 +8,7 @@ const MD_CODES = require('../md_codes');
 module.exports = (router) => {
     router.post('/register', (req, res) => {
         if (!req.body.username) {
+            console.log(req);
             return res.json({ success: false, code: HTTP_STATUS_CODES.BAD_REQUEST, message: 'You must provide a username' });
         }
         if (!req.body.email) {
@@ -17,6 +18,7 @@ module.exports = (router) => {
             return res.json({ success: false, code: HTTP_STATUS_CODES.BAD_REQUEST, message: 'You must provide a password' });
         }
         if (req.body.password !== req.body.confirm) {
+            console.log(res);
             return res.json({ success: false, code: HTTP_STATUS_CODES.BAD_REQUEST, message: 'Passwords do not match' });
         }
 
